@@ -2,7 +2,8 @@ package service;
 
 import model.*;
 
-import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Random;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,68 +12,144 @@ public class MainService {
     private static ArrayList<AbstractCustomer> allCustomers = new ArrayList<AbstractCustomer>();
 
     public static void main(String[] args) {
-        createNewDriver("Daniels", "Kalmars", "130202-20821" , "AT789221", 8.3f);
-        createNewDriver("Kalmars", "Kalmars", "130202-20821" , "AT832221", 52.3f);
-        createNewDriver("Rudolfs", "Sniedzins", "020202-20202" , "AT123456", 36.5f);
-        createNewDriver("Matiss", "Kalmars", "130202-20821" , "AT789011", 12.5f);
-        createNewCustomerAsCompany(new Address(City.Ventspils, "Inzenieru iela", 101), "Kalmars un ko", "+37120627905", "LV20394839214");
-        createNewCustomerAsCompany(new Address(City.Ventspils, "Lielais prospekts", 11), "Sniedzins un ko", "+37128727333", "LV48594834834");
-        createNewCustomerAsPerson("Janis", "Briedis", "050302-20831", new Address(City.Ventspils, "Parventas iela", 22), "+37128374854");
-        createNewCustomerAsPerson("Janis", "Kodejs", "040202-20831", new Address(City.Ventspils, "Liela iela", 11), "+37126374531");
-
-
         try {
-            System.out.println(retrieveDriverByPersonCode("130202-20821"));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            createNewDriver("Daniels", "Kalmars", "210298-21121" , "AT789221", 8.3f);
+            createNewDriver("Kurts", "Kalmars", "300506-20221" , "AT832221", 1.2f);
+            createNewDriver("Rudolfs", "Sniedzins", "110202-20202" , "AT123456", 36.5f);
+            createNewDriver("Matiss", "Kalmars", "091099-23221" , "AT789011", 12.5f);
 
-        try {
-            updateDriverLicenseNoByPersonCode("130202-20821", "AT583938");
-            System.out.println(allDrivers.get(1));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println("createNewDriver()");
+            for (Driver driver : allDrivers) {
+                System.out.println(driver);
+            }
 
-        try {
-            updateDriverExperienceByPersonCode("130202-20821", 50.4f);
-            System.out.println(allDrivers.get(1));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println("\nretrieveDriverByPersonCode()");
+            System.out.println(retrieveDriverByPersonCode("210298-21121") + "\n");
 
-        try {
-            ArrayList<CustomerAsCompany> customersAsCompany = retrieveAllCustomersAsCompany();
-            System.out.println(customersAsCompany);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println("updateDriverLicenseNoByPersonCode() & updateDriverExperienceByPersonCode()");
+            System.out.println(allDrivers.get(0) + "\n");
 
-        try {
-            ArrayList<CustomerAsPerson> customersAsPerson = retrieveAllCustomersAsPerson();
-            System.out.println(customersAsPerson);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            updateDriverLicenseNoByPersonCode("210298-21121", "AT122312");
+            updateDriverExperienceByPersonCode("210298-21121", 1.2f);
 
-        try {
-            createNewParcelForCustomer(LocalDateTime.now().plusDays(3), ParcelSize.XL, true, allDrivers.get(0), allCustomers.get(2).getCustomerCode());
-            System.out.println(allCustomers.get(2));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println(allDrivers.get(0) + "\n");
 
-        try {
-            System.out.println(allDrivers);
+            System.out.println("removeDriverByPersonCode()");
+            System.out.println(allDrivers.get(0) + "\n");
+
+            removeDriverByPersonCode("210298-21121");
+
+            for (Driver driver : allDrivers) {
+                System.out.println(driver);
+            }
+
+            System.out.println("\ncreateNewCustomerAsCompany() & createNewCustomerAsPerson()");
+
+            createNewCustomerAsCompany(new Address(City.Ventspils, "Inzenieru iela", 101), "Kalmars un ko", "+37120627905", "LV20394839214");
+            createNewCustomerAsCompany(new Address(City.Riga, "Lielais prospekts", 11), "Sniedzins un ko", "+37128727333", "LV48594834834");
+
+            createNewCustomerAsPerson("Janis", "Briedis", "050302-20831", new Address(City.Daugavpils, "Parventas iela", 22), "+37128374854");
+            createNewCustomerAsPerson("Andris", "Liepa", "040202-20831", new Address(City.Ventspils, "Liela iela", 11), "+37126374531");
+
+            for (AbstractCustomer customer : allCustomers) {
+                System.out.println(customer);
+            }
+
+            System.out.println("\nretrieveAllCustomersAsPersons()");
+            for (CustomerAsPerson customer : retrieveAllCustomersAsPerson()) {
+                System.out.println(customer);
+            }
+
+            System.out.println("\nretrieveAllCustomersAsCompany()");
+            for (CustomerAsCompany customer : retrieveAllCustomersAsCompany()) {
+                System.out.println(customer);
+            }
+
+            System.out.println("\ncreateNewParcelForCustomer()");
+
+            createNewParcelForCustomer(LocalDateTime.now().plusHours(3), ParcelSize.M, true, allDrivers.get(0), allCustomers.get(2).getCustomerCode());
+            createNewParcelForCustomer(LocalDateTime.now().plusDays(3), ParcelSize.M, true, allDrivers.get(1), allCustomers.get(2).getCustomerCode());
+            createNewParcelForCustomer(LocalDateTime.now().plusDays(3), ParcelSize.L, true, allDrivers.get(0), allCustomers.get(2).getCustomerCode());
+            createNewParcelForCustomer(LocalDateTime.now().plusHours(1), ParcelSize.XL, true, allDrivers.get(0), allCustomers.get(0).getCustomerCode());
+            createNewParcelForCustomer(LocalDateTime.now().plusHours(1), ParcelSize.L, true, allDrivers.get(0), allCustomers.get(3).getCustomerCode());
+
+
+            System.out.println(allCustomers.get(2).getParcels() + "\n");
+            System.out.println(allCustomers.get(0).getParcels() + "\n");
+            System.out.println(allCustomers.get(3).getParcels() + "\n");
+
+            System.out.println("retrieveAllParcelsByCustomerCode()");
+            for (Parcel parcel : retrieveAllParcelsByCustomerCode(allCustomers.get(2).getCustomerCode())) {
+                System.out.println(parcel);
+            }
+
+            System.out.println("\nretrieveAllParcelsByDriverPersonCode()");
+            for (Parcel parcel : retrieveAllParcelsByDriverPersonCode("300506-20221")) {
+                System.out.println(parcel);
+            }
+
+            System.out.println("\nretrieveAllParcelsByCity()");
+            for (Parcel parcel : retrieveAllParcelsByCity(City.Ventspils)) {
+                System.out.println(parcel);
+            }
+
+            System.out.println("\nretrieveAllParcelsBySize()");
+            for (Parcel parcel : retrieveAllParcelsBySize(ParcelSize.M)) {
+                System.out.println(parcel);
+            }
+
+            System.out.println("\ncalculatePriceOfAllCustomersParcelsByCustomerCode()");
+            System.out.println(calculatePriceOfAllCustomerParcelsByCustomerCode(allCustomers.get(2).getCustomerCode()) + "\n");
+
+            System.out.println("retrieveStatisticsOfCustomerParcelSize()");
+            System.out.println(Arrays.toString(retrieveStatisticsOfCustomerParcelSize(allCustomers.get(2).getCustomerCode())) + "\n");
+
+            System.out.println("sortDriversByExperience()");
+            for (Driver driver : allDrivers) {
+                System.out.println(driver);
+            }
+
             sortDriversByExperience();
-            System.out.println(allDrivers);
+
+            System.out.println();
+
+            for (Driver driver : allDrivers) {
+                System.out.println(driver);
+            }
+
+            System.out.println("\ncalculateHowManyParcelsTodayDeliveredToSpecificCity()");
+            System.out.println(calculateHowManyParcelsTodayDeliveredToSpecificCity(City.Ventspils) + "\n");
+
+            System.out.println("generateCustomersAsPersonAndParcel()");
+            generateCustomerAsPersonAndParcel();
+            generateCustomerAsPersonAndParcel();
+
+            for (AbstractCustomer customer : allCustomers) {
+                System.out.println(customer);
+            }
+
+            System.out.println("\ngenerateCustomerAsCompanyAndParcel()");
+            generateCustomerAsCompanyAndParcel();
+            generateCustomerAsCompanyAndParcel();
+
+            for (AbstractCustomer customer : allCustomers) {
+                System.out.println(customer);
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public static void createNewDriver(String name, String surname, String personCode, String licenseNo, float experienceInYears) {
-        // TODO: Check inputs.
+    public static void createNewDriver(String name, String surname, String personCode, String licenseNo, float experienceInYears) throws Exception {
+        if (name == null || surname == null || personCode == null || licenseNo == null || experienceInYears < 0) throw new Exception("There is a problem with input parameters.");
+
+        for (Driver driver : allDrivers) {
+            if (driver.getPersonCode().equals(personCode)) {
+                throw new Exception("Driver with that personCode already exists.");
+            }
+        }
+
         allDrivers.add(new Driver(name, surname, personCode, licenseNo, experienceInYears));
     }
 
@@ -126,13 +203,35 @@ public class MainService {
         throw new Exception("No driver with that personCode was found.");
     }
 
-    public static void createNewCustomerAsPerson(String name, String surname, String personCode, Address address, String phone) {
-        // TODO: Check inputs.
+    public static void createNewCustomerAsPerson(String name, String surname, String personCode, Address address, String phone) throws Exception {
+        if (name == null || surname == null || personCode == null || address == null || phone == null) throw new Exception("There is a problem with input parameters.");
+
+        ArrayList<CustomerAsPerson> customers = new ArrayList<>();
+
+        try {
+            customers = retrieveAllCustomersAsPerson();
+        } catch (Exception ignored) {}
+
+        for (CustomerAsPerson customer : customers) {
+            if (customer.getPersonCode().equals(personCode)) throw new Exception("Person with that personCode already exists.");
+        }
+
         allCustomers.add(new CustomerAsPerson(name, surname, personCode, address, phone));
     }
 
-    public static void createNewCustomerAsCompany(Address address, String phone, String title, String companyRegNo) {
-        // TODO: Check inputs.
+    public static void createNewCustomerAsCompany(Address address, String phone, String title, String companyRegNo) throws Exception {
+        if (address == null || phone == null || title == null || companyRegNo == null) throw new Exception("There is a problem with input parameters.");
+
+        ArrayList<CustomerAsCompany> customers = new ArrayList<>();
+
+        try {
+            customers = retrieveAllCustomersAsCompany();
+        } catch (Exception ignored) {}
+
+        for (CustomerAsCompany customer : customers) {
+            if (customer.getCompanyRegNo().equals(companyRegNo)) throw new Exception("Company with that companyRegNo already exists.");
+        }
+
         allCustomers.add(new CustomerAsCompany(address, phone, title, companyRegNo));
     }
 
@@ -175,7 +274,8 @@ public class MainService {
     }
 
     public static void createNewParcelForCustomer(LocalDateTime plannedDelivery, ParcelSize size, boolean isFragile, Driver driver, String customerCode) throws Exception {
-        // TODO: Check inputs.
+        if (plannedDelivery == null || size == null || driver == null || customerCode == null) throw new Exception("There is a problem with input parameters.");
+
         retrieveCustomerByCustomerCode(customerCode).addNewParcel(new Parcel(plannedDelivery, size, isFragile, driver));
     }
 
@@ -223,7 +323,7 @@ public class MainService {
             if (customer.getAddress().getCity().equals(city)) result.addAll(customer.getParcels());
         }
 
-        if (result.isEmpty()) throw new Exception("There are no parcels being delivered by this driver.");
+        if (result.isEmpty()) throw new Exception("There are no parcels being delivered to this city.");
 
         return result;
     }
@@ -320,4 +420,80 @@ public class MainService {
 
         return sum;
     }
+
+    public static void generateCustomerAsPersonAndParcel() throws Exception {
+        String[] names = {"Janis", "Rudolfs", "Daniels", "Andris", "Matiss", "Ritvars", "Raitis", "Roberts", "Haralds",
+                "Ugis", "Juris", "Dimitrijs", "Sergejs"};
+        String[] surnames = {"Berzins", "Sniedzins", "Kalmars", "Buks", "Briedis", "Vadonis", "Lieltevs", "Namatevs",
+                "Biezbardis", "Kungs", "Zivs"};
+
+        Random rand = new Random();
+
+        City[] cities = {City.Ventspils, City.Daugavpils, City.Liepaja, City.Riga, City.Jelgava, City.Other};
+
+        String[] streets = {"Inzenieru iela", "Juras iela", "Saules iela", "Katolu iela", "Valdemara iela", "Liela iela",
+                "Lielais prospekts", "Klusa iela", "Puskina iela", "Matisa iela"};
+
+        Address address = new Address(
+                cities[rand.nextInt(cities.length)],
+                streets[rand.nextInt(streets.length)],
+                rand.nextInt(99) + 1);
+
+        CustomerAsPerson customer = new CustomerAsPerson(
+                names[rand.nextInt(names.length)],
+                surnames[rand.nextInt(surnames.length)],
+                String.format("%02d%02d%02d-%05d", rand.nextInt(30) + 1, rand.nextInt(12) + 1,
+                        rand.nextInt(99) + 1, rand.nextInt(99999) + 1),
+                address,
+                String.format("+3712%07d", rand.nextInt(10000000)));
+
+        ParcelSize[] parcelSizes = {ParcelSize.X, ParcelSize.M, ParcelSize.L, ParcelSize.XL, ParcelSize.S};
+
+        Parcel parcel = new Parcel(
+                LocalDateTime.now().plusDays(3),
+                parcelSizes[rand.nextInt(parcelSizes.length)],
+                rand.nextBoolean(),
+                allDrivers.get(rand.nextInt(allDrivers.size())));
+
+        customer.addNewParcel(parcel);
+        allCustomers.add(customer);
+    }
+
+    public static void generateCustomerAsCompanyAndParcel() throws Exception {
+        City[] cities = {City.Ventspils, City.Daugavpils, City.Liepaja, City.Riga, City.Jelgava, City.Other};
+
+        String[] streets = {"Inzenieru iela", "Juras iela", "Saules iela", "Katolu iela", "Valdemara iela", "Liela iela",
+                "Lielais prospekts", "Klusa iela", "Puskina iela", "Matisa iela"};
+
+        String[] titleFirst = {"Janis", "Babum", "Uga", "Buga", "Ritvars", "Ods", "Rudolfs", "Daniels"};
+        String[] titleSecond = {"Un Ko", "Burger", "Foods", "Eat", "Kebab", "Tacos", "Kalmari", "Sniedzini", "Bistro", "Restaurant"};
+
+        Random rand = new Random();
+
+        Address address = new Address(
+                cities[rand.nextInt(cities.length)],
+                streets[rand.nextInt(streets.length)],
+                rand.nextInt(99) + 1);
+
+        CustomerAsCompany company = new CustomerAsCompany(
+                address,
+                String.format("+3712%07d", rand.nextInt(10000000)),
+                titleFirst[rand.nextInt(titleFirst.length)] + " " + titleSecond[rand.nextInt(titleSecond.length)],
+                String.format("LV%09d%09d", rand.nextInt(999999999), rand.nextInt(99))
+                );
+
+
+        ParcelSize[] parcelSizes = {ParcelSize.X, ParcelSize.M, ParcelSize.L, ParcelSize.XL, ParcelSize.S};
+
+        Parcel parcel = new Parcel(
+                LocalDateTime.now().plusDays(3),
+                parcelSizes[rand.nextInt(parcelSizes.length)],
+                rand.nextBoolean(),
+                allDrivers.get(rand.nextInt(allDrivers.size())));
+
+        company.addNewParcel(parcel);
+        allCustomers.add(company);
+    }
+
+
 }

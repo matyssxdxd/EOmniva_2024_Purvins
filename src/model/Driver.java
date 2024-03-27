@@ -41,12 +41,12 @@ public class Driver extends Person implements Comparable<Driver> {
     }
 
     public void setExperienceInYears(float experienceInYears) {
-        this.experienceInYears = experienceInYears;
+        this.experienceInYears = (experienceInYears > 0) ? experienceInYears : 0;
     }
 
     @Override
     public String toString() {
-        return "dID: " + dID + " " + super.toString() + " licenseNo: " + licenseNo + " YOE: " + experienceInYears;
+        return "dID: " + dID + ", " + super.toString() + " licenseNo: " + licenseNo + " YOE: " + experienceInYears;
     }
 
     @Override

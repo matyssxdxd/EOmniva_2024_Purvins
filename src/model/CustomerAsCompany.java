@@ -27,7 +27,7 @@ public class CustomerAsCompany extends AbstractCustomer {
     }
 
     public void setTitle(String title) {
-        this.title = ( title != null && title.matches("[A-Za-z0-9%^+@=.,!]{3,50}")) ? title : "defaultTitle";
+        this.title = ( title != null && title.matches("[A-Za-z0-9%^+@=.,! ]{3,50}")) ? title : "defaultTitle";
     }
 
     public void setCompanyRegNo(String companyRegNo) {

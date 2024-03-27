@@ -65,7 +65,7 @@ public abstract class AbstractCustomer {
         if (parcel == null) throw new Exception("No parcel");
 
         for (Parcel tempParcel : parcels) {
-            if (parcel.getpID() == tempParcel.getpID()) throw new Exception("Parcel already exists");
+            if (parcel.equals(tempParcel)) throw new Exception("Parcel already exists");
         }
 
         parcels.add(parcel);
@@ -73,6 +73,6 @@ public abstract class AbstractCustomer {
 
     @Override
     public String toString() {
-        return cID + " " + customerCode + " " + phoneNo + " " + address + " " + parcels;
+        return "cID: " + cID + ", customerCode: " + customerCode + ", phoneNo: " + phoneNo + ", address: " + address + ", parcels: " + parcels;
     }
 }

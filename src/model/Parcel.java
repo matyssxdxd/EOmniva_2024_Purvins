@@ -1,19 +1,18 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Parcel {
-    private long pID;
     private LocalDateTime orderCreated;
     private LocalDateTime plannedDelivery;
     private ParcelSize size;
     private float price;
     private boolean isFragile;
     private Driver driver;
-    private static long counter = 0;
 
     public Parcel() {
-        setpID();
         setOrderCreated();
         setPlannedDelivery(LocalDateTime.now().plusDays(1));
         setSize(ParcelSize.X);
@@ -23,7 +22,6 @@ public class Parcel {
     }
 
     public Parcel(LocalDateTime plannedDelivery, ParcelSize size, boolean isFragile, Driver driver) {
-        setpID();
         setOrderCreated();
         setPlannedDelivery(plannedDelivery);
         setSize(size);
@@ -54,10 +52,6 @@ public class Parcel {
 
     public Driver getDriver() {
         return driver;
-    }
-
-    public long getpID() {
-        return pID;
     }
 
     public void setOrderCreated() {
@@ -92,12 +86,10 @@ public class Parcel {
         this.driver = (driver != null) ? driver : new Driver();
     }
 
-    public void setpID() {
-        this.pID = counter++;
-    }
-
     @Override
     public String toString() {
-        return orderCreated + " - " + plannedDelivery + " " + size + " " + price + " " + driver;
+        return "order created: " + orderCreated.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + ", planned delivery: "
+                + plannedDelivery.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + ", size: " + size + ", price: "
+                + price + ", driver: " + driver;
     }
 }

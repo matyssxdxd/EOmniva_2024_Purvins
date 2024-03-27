@@ -38,11 +38,11 @@ public class Person {
     }
 
     public void setPersonCode(String personCode) {
-        this.personCode = ( personCode != null && personCode.matches("^(\\d{6})-[012]\\d{4}$")) ? personCode : "000000-00000";
+        this.personCode = ( personCode != null && personCode.matches("[0-9]{6}-[0-9]{5}")) ? personCode : "000000-00000";
     }
 
     @Override
     public String toString() {
-        return name + " " + surname + " " + personCode;
+        return "name: " + name + ", surname: " + surname + ", personCode: " + personCode;
     }
 }
